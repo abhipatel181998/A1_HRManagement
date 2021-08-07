@@ -64,52 +64,117 @@ public class HRManagement {
 						case 1:
 							ArrayList<Employees> employees = DAManager.getAllEmployees();
 
-							System.out.println("Employee Id \t EmployeeName \t Job Id \t Salary");
-							System.out.println("------------------------------------------------------------------------");
+							System.out.println("\nEmployee Id \t EmployeeName \t Job Id \t Salary");
+							System.out.println(
+									"------------------------------------------------------------------------");
 							for (Employees emp : employees) {
 								System.out.println(emp.getEmployee_id() + "\t" + emp.getFirst_name() + " "
 										+ emp.getLast_name() + "\t" + emp.getJob_id() + "\t" + emp.getSalary());
-								System.out.println("------------------------------------------------------------------------");
+								System.out.println(
+										"------------------------------------------------------------------------");
 							}
 
 							break;
 
-							
-							
 						case 2:
-							System.out.print("Enter department id: ");
+							System.out.print("\nEnter department id: ");
 							int department_id = in.nextInt();
-							
+
 							ArrayList<Employees> employeesByDep = DAManager.getEmployeesByDepartmentID(department_id);
 
-							System.out.println("Employee Id \t EmployeeName \t Job Id \t Salary");
-							System.out.println("------------------------------------------------------------------------");
+							System.out.println("\nEmployee Id \t EmployeeName \t Job Id \t Salary");
+							System.out.println(
+									"------------------------------------------------------------------------");
 							for (Employees emp : employeesByDep) {
 								System.out.println(emp.getEmployee_id() + "\t" + emp.getFirst_name() + " "
 										+ emp.getLast_name() + "\t" + emp.getJob_id() + "\t" + emp.getSalary());
-								System.out.println("------------------------------------------------------------------------");
+								System.out.println(
+										"------------------------------------------------------------------------");
 							}
-							
+
 							break;
-							
-							
-							
+
 						case 3:
-							System.out.print("Enter employee id: ");
+							System.out.print("\nEnter employee id: ");
 							int employeeId = in.nextInt();
-							
+
 							Employees emp = DAManager.getEmployeeByID(employeeId);
 
-							System.out.println("Employee Id \t EmployeeName \t Job Id \t Salary");
-							System.out.println("------------------------------------------------------------------------");
+							System.out.println("\nEmployee Id \t EmployeeName \t Job Id \t Salary");
+							System.out.println(
+									"------------------------------------------------------------------------");
+							if (emp != null)
 								System.out.println(emp.getEmployee_id() + "\t" + emp.getFirst_name() + " "
 										+ emp.getLast_name() + "\t" + emp.getJob_id() + "\t" + emp.getSalary());
-								System.out.println("------------------------------------------------------------------------");
-							
+
 							break;
 
+						case 4:
+
+							System.out.print("\nEnter employee id: ");
+							int emp_id_i = in.nextInt();
+							while (emp_id_i == 0) {
+								System.out.println("Please Enter employee id: ");
+								emp_id_i = in.nextInt();
+							}
+
+							System.out.print("\nEnter First Name: ");
+							String f_name_i = in.next();
+
+							System.out.print("\nEnter Last Name: ");
+							String l_name_i = in.next();
+
+							System.out.print("\nEnter Email: ");
+							String email_i = in.next();
+
+							System.out.print("\nEnter Phone Number: ");
+							String phone_i = in.next();
+
+							System.out.print("\nEnter Hire Date: ");
+							String hireDate_i = in.next();
+
+							System.out.print("\nEnter Job Id: ");
+							String job_id_i = in.next();
+
+							System.out.print("\nEnter Salary: ");
+							int salary_i = in.nextInt();
+
+							System.out.print("\nEneter Commission Pct: ");
+							int comm_i = in.nextInt();
+
+							System.out.print("\nEneter Manager Id: ");
+							int mng_id_i = in.nextInt();
+
+							System.out.print("\nEnetr Department Id: ");
+							int dep_id_i = in.nextInt();
+
+							Employees employee_i = new Employees(emp_id_i, f_name_i, l_name_i, email_i, phone_i,
+									hireDate_i, job_id_i, salary_i, comm_i, mng_id_i, dep_id_i);
+
+							DAManager.addEmployee(employee_i);
+
+							break;
+
+						case 5:
+
+							break;
+
+						case 6:
+							System.out.print("\nEnter employee id: ");
+							int emp_id_d = in.nextInt();
+
+							int rowsDeleted = DAManager.deleteEmployeeByID(emp_id_d);
+							System.out.println("\n" + rowsDeleted + " employee deleted.");
+							
+							break;
+							
+							
+							
+						case 7:
+							
+
 						default:
-							System.out.println("Wrong choise entered.");
+							System.out.println("\nWrong choise entered.");
 							break;
 
 						}

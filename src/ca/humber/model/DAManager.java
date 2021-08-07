@@ -372,8 +372,6 @@ public class DAManager {
 
 			deletedRow = statement.executeUpdate();
 
-			System.out.println(deletedRow + " row deleted!!");
-
 		} catch (SQLException e) {
 			System.err.println(e.getSQLState());
 			System.err.println(e.getMessage());
