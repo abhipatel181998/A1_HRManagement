@@ -9,7 +9,9 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import oracle.jdbc.OracleTypes;
 import oracle.jdbc.internal.OracleCallableStatement;
+import oracle.jdbc.oracore.OracleType;
 
 public class DAManager {
 
@@ -240,15 +242,20 @@ public class DAManager {
 			statement =  (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
 			
 			statement.setInt(1, empid);
-			statement.registerOutParameter(2,Types.REF_CURSOR);
+			statement.registerOutParameter(2,OracleTypes.CURSOR);
 
-			resultSet = statement.executeQuery();
+			statement.executeQuery();
 			
-			System.out.println(resultSet);
+			resultSet = statement.getObject(2,ResultSet.class);
+			
+			while(resultSet.next()) {
+				System.out.println(resultSet.getObject("job_id"));
+			}
 
 		} catch (SQLException e) {
 			System.err.println(e.getSQLState());
 			System.err.println(e.getMessage());
+			e.printStackTrace();
 			System.err.println(e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
