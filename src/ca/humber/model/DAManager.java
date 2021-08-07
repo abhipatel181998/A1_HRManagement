@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import oracle.jdbc.internal.OracleCallableStatement;
+
 public class DAManager {
 
 	public static int getEmployeeID(String user, String password) {
@@ -166,6 +168,105 @@ public class DAManager {
 			}
 		}
 		return employeesList;
+	}
+
+	public static ArrayList<Employees> getEmployeesByDepartmentID(int depid) {
+		Connection con = null;
+
+		PreparedStatement statement = null;
+
+		ResultSet resultSet = null;
+
+		DBUtil dbUtil = new DBUtil();
+
+		ArrayList<Employees> employeesList = new ArrayList<>();
+		try {
+
+			con = dbUtil.getConnectionThinDriver();
+
+			System.out.println("Database is connected");
+
+			// Create Statement
+
+			String sql = "select * from employees where DEPARTMENT_ID=?";
+
+			statement = con.prepareStatement(sql);
+
+			statement.setInt(1, depid);
+
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				employeesList.add(new Employees(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
+						resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11)));
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e.getSQLState());
+			System.err.println(e.getMessage());
+			System.err.println(e.getErrorCode());
+			System.exit(0);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex) {
+
+			}
+		}
+		return employeesList;
+	}
+	
+	public static Employees getEmployeeByID(int empid) {
+		Connection connection = null;
+
+		OracleCallableStatement statement = null;
+
+		DBUtil dbUtil = new DBUtil();
+		
+		ResultSet resultSet = null;
+
+		try {
+
+			connection = dbUtil.getConnectionThinDriver();
+			statement =  (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
+			
+			statement.setInt(1, empid);
+			statement.registerOutParameter(2,Types.REF_CURSOR);
+
+			resultSet = statement.executeQuery();
+			
+			System.out.println(resultSet);
+
+		} catch (SQLException e) {
+			System.err.println(e.getSQLState());
+			System.err.println(e.getMessage());
+			System.err.println(e.getErrorCode());
+			System.exit(0);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 }
