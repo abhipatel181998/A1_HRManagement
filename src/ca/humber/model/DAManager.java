@@ -3,8 +3,11 @@ package ca.humber.model;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
 
 public class DAManager {
 
@@ -110,6 +113,59 @@ public class DAManager {
 			}
 		}
 
+	}
+
+	public static ArrayList<Employees> getAllEmployees() {
+		Connection con = null;
+
+		Statement statement = null;
+
+		ResultSet resultSet = null;
+
+		DBUtil dbUtil = new DBUtil();
+
+		ArrayList<Employees> employeesList = new ArrayList<>();
+		try {
+
+			con = dbUtil.getConnectionThinDriver();
+
+			System.out.println("Database is connected");
+
+			// Create Statement
+
+			String sql = "select * from employees";
+
+			statement = con.createStatement();
+
+			resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				employeesList.add(new Employees(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
+						resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11)));
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e.getSQLState());
+			System.err.println(e.getMessage());
+			System.err.println(e.getErrorCode());
+			System.exit(0);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex) {
+
+			}
+		}
+		return employeesList;
 	}
 
 }

@@ -1,6 +1,12 @@
 package ca.humber.test;
 
+
+
+import java.util.List;
+
+import ca.humber.model.DAManager;
 import ca.humber.model.DBUtil;
+import ca.humber.model.Employees;
 
 public class HRManagement {
 
@@ -10,6 +16,12 @@ public class HRManagement {
 //			System.out.println(DAManager.getEmployeeID("michael","michael123"));
 //			Employees emp = new Employees(400,"Donald","OConnell","DCONNEL","650.507.9833","21-06-99","SH_CLERK",2600,0,124,50);
 //			DAManager.addEmployee(emp);
+			
+//			List<Employees> emp = DAManager.getAllEmployees();
+//			
+//			for(Employees e:emp) {
+//				System.out.println(e.getEmployee_id());
+//			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
