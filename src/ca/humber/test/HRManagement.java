@@ -23,7 +23,16 @@ public class HRManagement {
 //				System.out.println(e.getEmployee_id());
 //			}
 			
-			DAManager.getEmployeeByID(210);
+//			DAManager.getEmployeeByID(210);
+			
+			Employees emp = new Employees(198,"Donaldd","OConnell","DCONNEL","650.507.9833","21-06-99","SH_CLERK",2600,0,124,50);
+			
+			DAManager.updateEmployee(emp);
+			
+			
+			
+			
+//			DAManager.deleteEmployeeByID(107);
 			
 			
 		} catch (Exception e) {

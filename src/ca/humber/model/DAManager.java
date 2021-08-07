@@ -224,26 +224,26 @@ public class DAManager {
 		}
 		return employeesList;
 	}
-	
+
 	public static Employees getEmployeeByID(int empid) {
 		Connection connection = null;
 
 		OracleCallableStatement statement = null;
 
 		DBUtil dbUtil = new DBUtil();
-		
+
 		ResultSet resultSet = null;
 
 		try {
 
 			connection = dbUtil.getConnectionThinDriver();
-			statement =  (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
-			
+			statement = (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
+
 			statement.setInt(1, empid);
-			statement.registerOutParameter(2,Types.REF_CURSOR);
+			statement.registerOutParameter(2, Types.REF_CURSOR);
 
 			resultSet = statement.executeQuery();
-			
+
 			System.out.println(resultSet);
 
 		} catch (SQLException e) {
@@ -267,6 +267,124 @@ public class DAManager {
 			}
 		}
 		return null;
+	}
+
+	public static int updateEmployee(Employees emp) {
+
+		Connection connection = null;
+
+		Statement statement = null;
+
+		ResultSet resultSet = null;
+
+		DBUtil dbUtil = new DBUtil();
+
+		int updatedRow = 0;
+		try {
+
+			connection = dbUtil.getConnectionThinDriver();
+
+			String sql = "SELECT first_name,last_name,email,phone_number,hire_date,job_id,salary,commission_pct,manager_id,department_id FROM EMPLOYEES WHERE employee_id="
+					+ emp.getEmployee_id();
+
+			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+			resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				// Updates the data inside the result set.
+				resultSet.updateString("first_name", emp.getFirst_name());
+				resultSet.updateString("last_name", emp.getLast_name());
+				resultSet.updateString("email", emp.getEmail());
+				resultSet.updateString("phone_number", emp.getPhone_number());
+				resultSet.updateString("hire_date", emp.getHire_date());
+				resultSet.updateString("job_id", emp.getJob_id());
+				resultSet.updateInt("salary", emp.getSalary());
+				resultSet.updateInt("commission_pct", emp.getCommission_pct());
+				resultSet.updateInt("manager_id", emp.getManager_id());
+				resultSet.updateInt("department_id", emp.getDepartment_id());
+
+				// Updates the table.
+				resultSet.updateRow();
+			}
+
+			System.out.println("Updated!!");
+
+		} catch (SQLException e) {
+			System.err.println(e.getSQLState());
+			System.err.println(e.getMessage());
+			System.err.println(e.getErrorCode());
+			System.exit(0);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return updatedRow;
+	}
+
+	public static int deleteEmployeeByID(int empid) {
+
+		Connection con = null;
+
+		PreparedStatement statement = null;
+
+		DBUtil dbUtil = new DBUtil();
+
+		int deletedRow = 0;
+
+		try {
+
+			con = dbUtil.getConnectionThinDriver();
+
+			System.out.println("Database is connected");
+
+			// Create prepared Statement
+
+			String sql = "delete from employees where employee_id=?";
+
+			statement = con.prepareStatement(sql);
+
+			// set value to prepareStatement
+			statement.setInt(1, empid);
+
+			deletedRow = statement.executeUpdate();
+
+			System.out.println(deletedRow + " row deleted!!");
+
+		} catch (SQLException e) {
+			System.err.println(e.getSQLState());
+			System.err.println(e.getMessage());
+			System.err.println(e.getErrorCode());
+			System.exit(0);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex) {
+
+			}
+		}
+		return deletedRow;
+
 	}
 
 }
