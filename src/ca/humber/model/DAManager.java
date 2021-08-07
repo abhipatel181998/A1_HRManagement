@@ -27,9 +27,15 @@ public class DAManager {
 		try {
 
 			connection = dbUtil.getConnectionThinDriver();
+			
+			//prepareCallable statement to call function
+			
 			statement = connection.prepareCall("{?= call P_SECURITY.F_SECURITY(?,?)}");
 
+			//setting output type
 			statement.registerOutParameter(1, Types.NUMERIC);
+
+			//setting parameter for  passing it to prepareCall			
 			statement.setString(2, user);
 			statement.setString(3, password);
 
@@ -37,9 +43,9 @@ public class DAManager {
 
 			employee_id = statement.getInt(1);
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -72,7 +78,7 @@ public class DAManager {
 			con = dbUtil.getConnectionThinDriver();
 
 			// Create prepared Statement
-
+			
 			String sql = "insert into employees values(?,?,?,?,?,?,?,?,?,?,?)";
 
 			statement = con.prepareStatement(sql);
@@ -95,9 +101,9 @@ public class DAManager {
 			System.out.println(insertedRow + " row inserted!!");
 
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -139,6 +145,7 @@ public class DAManager {
 
 			resultSet = statement.executeQuery(sql);
 
+			// loop through  resultSet and adding data to employee  list			
 			while (resultSet.next()) {
 				employeesList.add(new Employees(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
 						resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
@@ -146,9 +153,9 @@ public class DAManager {
 			}
 
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -182,16 +189,17 @@ public class DAManager {
 
 			con = dbUtil.getConnectionThinDriver();
 
-			// Create Statement
-
+			// Create prepared Statement
 			String sql = "select * from employees where DEPARTMENT_ID=?";
 
 			statement = con.prepareStatement(sql);
-
+			
+			//setting data for prepare statement			
 			statement.setInt(1, depid);
 
 			resultSet = statement.executeQuery();
 
+			// loop through  resultSet and adding data to the employee  list	
 			while (resultSet.next()) {
 				employeesList.add(new Employees(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
 						resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
@@ -199,9 +207,9 @@ public class DAManager {
 			}
 
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -235,9 +243,14 @@ public class DAManager {
 		try {
 
 			connection = dbUtil.getConnectionThinDriver();
+			
+			// Oracle Callable statement 		
 			statement = (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
 
+			//setting value to prepareCall			
 			statement.setInt(1, empid);
+			
+			//setting output type			
 			statement.registerOutParameter(2, OracleTypes.CURSOR);
 
 			statement.executeQuery();
@@ -260,10 +273,10 @@ public class DAManager {
 			}
 
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			e.printStackTrace();
-			System.err.println(e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -298,13 +311,16 @@ public class DAManager {
 
 			connection = dbUtil.getConnectionThinDriver();
 
+			//Sql query			
 			String sql = "SELECT first_name,last_name,email,phone_number,hire_date,job_id,salary,commission_pct,manager_id,department_id FROM EMPLOYEES WHERE employee_id="
 					+ emp.getEmployee_id();
 
+			//create statement using result set			
 			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			resultSet = statement.executeQuery(sql);
 
+			//setting result set to update data			
 			while (resultSet.next()) {
 				// Updates the data inside the result set.
 				resultSet.updateString("first_name", emp.getFirst_name());
@@ -324,9 +340,9 @@ public class DAManager {
 			}
 
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -373,9 +389,9 @@ public class DAManager {
 			deletedRow = statement.executeUpdate();
 
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -406,24 +422,32 @@ public class DAManager {
 		try {
 
 			con = dbUtil.getConnectionThinDriver();
+			
+			// turn off auto commit			
 			con.setAutoCommit(false);
 
+					
 			statement = con.createStatement();
-
+			
+			//pushing sql query to batch
 			for (int i = 0; i < SQLs.length; i++) {
 				statement.addBatch(SQLs[i]);
 			}
+			
+			//execute all query at once using execute Batch			
 			int[] updateCounts = statement.executeBatch();
 
+			//commit to save transaction  			
 			con.commit();
 
 		} catch (BatchUpdateException ex) {
+			//undo  transaction  if error occur			
 			con.rollback();
 			return false;
 		} catch (SQLException e) {
-			System.err.println(e.getSQLState());
-			System.err.println(e.getMessage());
-			System.err.println(e.getErrorCode());
+			System.err.println("Sql state: " + e.getSQLState());
+			System.err.println("Error message: " + e.getMessage());
+			System.err.println("Error code: " +e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
