@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Abhi&apos;s Drive/OneDrive - Humber College/Semester2/ITC-5201-RNB-Database Pgm Using Java/JDBC Drivers/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="D:/Humber/java2/A1_HRManagement/src/Jarlib/ojdbc7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

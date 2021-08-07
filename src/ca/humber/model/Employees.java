@@ -15,7 +15,7 @@ public class Employees implements Serializable {
 	private String first_name;
 	private String last_name;
 	private String email;
-	private long phone_number;
+	private String phone_number;
 	private String hire_date;
 	private String job_id;
 	private int salary;
@@ -28,7 +28,7 @@ public class Employees implements Serializable {
 	
 	
 
-	public Employees(int employee_id, String first_name, String last_name, String email, long phone_number,
+	public Employees(int employee_id, String first_name, String last_name, String email, String phone_number,
 			String hire_date, String job_id, int salary, int commission_pct, int manager_id, int department_id) {
 		this.employee_id = employee_id;
 		this.first_name = first_name;
@@ -40,6 +40,7 @@ public class Employees implements Serializable {
 		this.salary = salary;
 		this.commission_pct = commission_pct;
 		this.manager_id = manager_id;
+		this.department_id = department_id;
 	}
 
 
@@ -76,11 +77,11 @@ public class Employees implements Serializable {
 		this.email = email;
 	}
 
-	public long getPhone_number() {
+	public String getPhone_number() {
 		return phone_number;
 	}
 
-	public void setPhone_number(long phone_number) {
+	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
 
