@@ -1,5 +1,6 @@
 package ca.humber.model;
 
+import java.sql.BatchUpdateException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -242,13 +243,13 @@ public class DAManager {
 			statement = (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
 
 			statement.setInt(1, empid);
-			statement.registerOutParameter(2,OracleTypes.CURSOR);
+			statement.registerOutParameter(2, OracleTypes.CURSOR);
 
 			statement.executeQuery();
-			
-			resultSet = statement.getObject(2,ResultSet.class);
-			
-			while(resultSet.next()) {
+
+			resultSet = statement.getObject(2, ResultSet.class);
+
+			while (resultSet.next()) {
 				System.out.println(resultSet.getObject("job_id"));
 			}
 
@@ -313,9 +314,8 @@ public class DAManager {
 
 				// Updates the table.
 				resultSet.updateRow();
+				updatedRow = 1;
 			}
-
-			System.out.println("Updated!!");
 
 		} catch (SQLException e) {
 			System.err.println(e.getSQLState());
@@ -391,6 +391,56 @@ public class DAManager {
 			}
 		}
 		return deletedRow;
+
+	}
+
+	public static boolean batchUpdate(String[] SQLs) throws SQLException {
+		Connection con = null;
+
+		Statement statement = null;
+
+		DBUtil dbUtil = new DBUtil();
+
+		try {
+
+			con = dbUtil.getConnectionThinDriver();
+			con.setAutoCommit(false);
+			System.out.println("Database is connected");
+
+			statement = con.createStatement();
+
+			for (int i = 0; i < SQLs.length; i++) {
+				statement.addBatch(SQLs[i]);
+			}
+			int[] updateCounts = statement.executeBatch();
+
+			con.commit();
+
+		} catch (BatchUpdateException ex) {
+			con.rollback();
+			return false;
+		} catch (SQLException e) {
+			System.err.println(e.getSQLState());
+			System.err.println(e.getMessage());
+			System.err.println(e.getErrorCode());
+			System.exit(0);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (statement != null) {
+					statement.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ex) {
+
+			}
+		}
+
+		return true;
 
 	}
 
