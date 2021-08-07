@@ -71,8 +71,6 @@ public class DAManager {
 
 			con = dbUtil.getConnectionThinDriver();
 
-			System.out.println("Database is connected");
-
 			// Create prepared Statement
 
 			String sql = "insert into employees values(?,?,?,?,?,?,?,?,?,?,?)";
@@ -133,8 +131,6 @@ public class DAManager {
 
 			con = dbUtil.getConnectionThinDriver();
 
-			System.out.println("Database is connected");
-
 			// Create Statement
 
 			String sql = "select * from employees";
@@ -185,8 +181,6 @@ public class DAManager {
 		try {
 
 			con = dbUtil.getConnectionThinDriver();
-
-			System.out.println("Database is connected");
 
 			// Create Statement
 
@@ -251,13 +245,18 @@ public class DAManager {
 			resultSet = statement.getObject(2, ResultSet.class);
 
 			while (resultSet.next()) {
-				System.out.println(resultSet.getObject("job_id"));
+
+				int commission_pct = 0;
+				if (!(resultSet.getObject("commission_pct") == null)) {
+					commission_pct = Integer.parseInt(resultSet.getObject("commission_pct").toString());
+				}
 				employee = new Employees(Integer.parseInt(resultSet.getObject("employee_id").toString()),
 						resultSet.getObject("first_name").toString(), resultSet.getObject("last_name").toString(),
 						resultSet.getObject("email").toString(), resultSet.getObject("phone_number").toString(),
 						resultSet.getObject("hire_date").toString(), resultSet.getObject("job_id").toString(),
-						Integer.parseInt(resultSet.getObject("salary").toString()), (int) resultSet.getObject("commission_pct"),
-						(int) resultSet.getObject("manager_id"), (int) resultSet.getObject("department_id"));
+						Integer.parseInt(resultSet.getObject("salary").toString()), commission_pct,
+						Integer.parseInt(resultSet.getObject("manager_id").toString()),
+						Integer.parseInt(resultSet.getObject("department_id").toString()));
 			}
 
 		} catch (SQLException e) {
@@ -362,8 +361,6 @@ public class DAManager {
 
 			con = dbUtil.getConnectionThinDriver();
 
-			System.out.println("Database is connected");
-
 			// Create prepared Statement
 
 			String sql = "delete from employees where employee_id=?";
@@ -412,7 +409,6 @@ public class DAManager {
 
 			con = dbUtil.getConnectionThinDriver();
 			con.setAutoCommit(false);
-			System.out.println("Database is connected");
 
 			statement = con.createStatement();
 

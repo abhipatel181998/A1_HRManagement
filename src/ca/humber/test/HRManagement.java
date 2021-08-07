@@ -23,35 +23,42 @@ public class HRManagement {
 
 //			DAManager.getEmployeeByID(210);
 
-//			System.out.print("Enter your username: ");
-//			String user = in.next();
-//
-//			System.out.print("Enter password: ");
-//			String password = in.next();
-//
-//			int employee_id = DAManager.getEmployeeID(user, password);
-//
-//			if (employee_id != 0) {
-//
-//				Employees employee = DAManager.getEmployeeByID(employee_id);
-//				if (employee.getJob_id().equals("HR_REP")) {
-//					System.out.println("sucess!");
-//				} else {
-//					System.out.println("Hello " + employee.getFirst_name() + " " + employee.getLast_name() + ",");
-//					System.out.println(
-//							"You are not allowed to access this application, This application is only for HR!");
-//				}
-//
-//			} else {
-//				System.out.println("Either your user name and password is wrong OR You do not have access to login.");
-//			}
+			System.out.print("Enter your username: ");
+			String user = in.next();
 
-			String[] sqlbatch = { "insert into security values(200,'abhi','abhi123','A')",
-					"insert into security values(199,'harshil','harshil123','A')" };
+			System.out.print("Enter password: ");
+			String password = in.next();
 
-			
-			System.out.println(DAManager.batchUpdate(sqlbatch));
-			
+			int employee_id = DAManager.getEmployeeID(user, password);
+
+			if (employee_id != 0) {
+
+				Employees employee = DAManager.getEmployeeByID(employee_id);
+				if (employee.getJob_id().equals("HR_REP")) {
+
+					System.out.println("\nWelecome, " + employee.getFirst_name() + " " + employee.getLast_name() + ",");
+					
+					System.out.println("\nOption available.");
+					System.out.println("----------------------");
+					
+					
+
+				} else {
+					System.out.println("Hello " + employee.getFirst_name() + " " + employee.getLast_name() + ",");
+					System.out.println(
+							"You are not allowed to access this application, This application is only for HR!");
+				}
+
+			} else {
+				System.out.println("Either your user name and password is wrong OR You do not have access to login.");
+			}
+
+//			String[] sqlbatch = { "insert into security values(200,'abhi','abhi123','A')",
+//					"insert into security values(199,'harshil','harshil123','A')" };
+//
+//			
+//			System.out.println(DAManager.batchUpdate(sqlbatch));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
