@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 import oracle.jdbc.internal.OracleCallableStatement;
-import oracle.jdbc.oracore.OracleType;
 
 public class DAManager {
 
@@ -236,20 +235,28 @@ public class DAManager {
 
 		ResultSet resultSet = null;
 
+		Employees employee = null;
+
 		try {
 
 			connection = dbUtil.getConnectionThinDriver();
 			statement = (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
 
 			statement.setInt(1, empid);
-			statement.registerOutParameter(2,OracleTypes.CURSOR);
+			statement.registerOutParameter(2, OracleTypes.CURSOR);
 
 			statement.executeQuery();
-			
-			resultSet = statement.getObject(2,ResultSet.class);
-			
-			while(resultSet.next()) {
+
+			resultSet = statement.getObject(2, ResultSet.class);
+
+			while (resultSet.next()) {
 				System.out.println(resultSet.getObject("job_id"));
+				employee = new Employees(Integer.parseInt(resultSet.getObject("employee_id").toString()),
+						resultSet.getObject("first_name").toString(), resultSet.getObject("last_name").toString(),
+						resultSet.getObject("email").toString(), resultSet.getObject("phone_number").toString(),
+						resultSet.getObject("hire_date").toString(), resultSet.getObject("job_id").toString(),
+						Integer.parseInt(resultSet.getObject("salary").toString()), (int) resultSet.getObject("commission_pct"),
+						(int) resultSet.getObject("manager_id"), (int) resultSet.getObject("department_id"));
 			}
 
 		} catch (SQLException e) {
@@ -273,7 +280,7 @@ public class DAManager {
 				ex.printStackTrace();
 			}
 		}
-		return null;
+		return employee;
 	}
 
 	public static int updateEmployee(Employees emp) {
