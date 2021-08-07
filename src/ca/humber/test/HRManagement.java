@@ -1,5 +1,6 @@
 package ca.humber.test;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import ca.humber.model.DAManager;
@@ -37,11 +38,82 @@ public class HRManagement {
 				if (employee.getJob_id().equals("HR_REP")) {
 
 					System.out.println("\nWelecome, " + employee.getFirst_name() + " " + employee.getLast_name() + ",");
-					
-					System.out.println("\nOption available.");
-					System.out.println("----------------------");
-					
-					
+
+					while (true) {
+						System.out.println("\nOption available.");
+						System.out.println("----------------------");
+
+						System.out.println("\n1. View all employees.");
+						System.out.println("2. View employees by departments.");
+						System.out.println("3. View employee information.");
+						System.out.println("4. Add new employee");
+						System.out.println("5. Update employee information.");
+						System.out.println("6. Delete employee.");
+						System.out.println("7. Insert new user for this application.");
+						System.out.println("0. Exit from the application.\n");
+
+						System.out.print("Enter the option: ");
+						int choise = in.nextInt();
+
+						switch (choise) {
+
+						case 0:
+							System.out.println("\nGood bye.");
+							return;
+
+						case 1:
+							ArrayList<Employees> employees = DAManager.getAllEmployees();
+
+							System.out.println("Employee Id \t EmployeeName \t Job Id \t Salary");
+							System.out.println("------------------------------------------------------------------------");
+							for (Employees emp : employees) {
+								System.out.println(emp.getEmployee_id() + "\t" + emp.getFirst_name() + " "
+										+ emp.getLast_name() + "\t" + emp.getJob_id() + "\t" + emp.getSalary());
+								System.out.println("------------------------------------------------------------------------");
+							}
+
+							break;
+
+							
+							
+						case 2:
+							System.out.print("Enter department id: ");
+							int department_id = in.nextInt();
+							
+							ArrayList<Employees> employeesByDep = DAManager.getEmployeesByDepartmentID(department_id);
+
+							System.out.println("Employee Id \t EmployeeName \t Job Id \t Salary");
+							System.out.println("------------------------------------------------------------------------");
+							for (Employees emp : employeesByDep) {
+								System.out.println(emp.getEmployee_id() + "\t" + emp.getFirst_name() + " "
+										+ emp.getLast_name() + "\t" + emp.getJob_id() + "\t" + emp.getSalary());
+								System.out.println("------------------------------------------------------------------------");
+							}
+							
+							break;
+							
+							
+							
+						case 3:
+							System.out.print("Enter employee id: ");
+							int employeeId = in.nextInt();
+							
+							Employees emp = DAManager.getEmployeeByID(employeeId);
+
+							System.out.println("Employee Id \t EmployeeName \t Job Id \t Salary");
+							System.out.println("------------------------------------------------------------------------");
+								System.out.println(emp.getEmployee_id() + "\t" + emp.getFirst_name() + " "
+										+ emp.getLast_name() + "\t" + emp.getJob_id() + "\t" + emp.getSalary());
+								System.out.println("------------------------------------------------------------------------");
+							
+							break;
+
+						default:
+							System.out.println("Wrong choise entered.");
+							break;
+
+						}
+					}
 
 				} else {
 					System.out.println("Hello " + employee.getFirst_name() + " " + employee.getLast_name() + ",");
