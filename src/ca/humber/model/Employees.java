@@ -10,7 +10,7 @@ public class Employees implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5493721904775778598L;
-	
+
 	private int employee_id;
 	private String first_name;
 	private String last_name;
@@ -18,18 +18,16 @@ public class Employees implements Serializable {
 	private String phone_number;
 	private String hire_date;
 	private String job_id;
-	private int salary;
-	private int commission_pct;
+	private double salary;
+	private double commission_pct;
 	private int manager_id;
 	private int department_id;
 
 	public Employees() {
 	}
-	
-	
 
 	public Employees(int employee_id, String first_name, String last_name, String email, String phone_number,
-			String hire_date, String job_id, int salary, int commission_pct, int manager_id, int department_id) {
+			String hire_date, String job_id, double salary, int commission_pct, int manager_id, int department_id) {
 		this.employee_id = employee_id;
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -42,8 +40,6 @@ public class Employees implements Serializable {
 		this.manager_id = manager_id;
 		this.department_id = department_id;
 	}
-
-
 
 	public int getEmployee_id() {
 		return employee_id;
@@ -101,19 +97,19 @@ public class Employees implements Serializable {
 		this.job_id = job_id;
 	}
 
-	public int getSalary() {
+	public double getSalary() {
 		return salary;
 	}
 
-	public void setSalary(int salary) {
+	public void setSalary(double salary) {
 		this.salary = salary;
 	}
 
-	public int getCommission_pct() {
+	public double getCommission_pct() {
 		return commission_pct;
 	}
 
-	public void setCommission_pct(int commission_pct) {
+	public void setCommission_pct(double commission_pct) {
 		this.commission_pct = commission_pct;
 	}
 

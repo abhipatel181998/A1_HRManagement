@@ -27,15 +27,15 @@ public class DAManager {
 		try {
 
 			connection = dbUtil.getConnectionThinDriver();
-			
-			//prepareCallable statement to call function
-			
+
+			// prepareCallable statement to call function
+
 			statement = connection.prepareCall("{?= call P_SECURITY.F_SECURITY(?,?)}");
 
-			//setting output type
+			// setting output type
 			statement.registerOutParameter(1, Types.NUMERIC);
 
-			//setting parameter for  passing it to prepareCall			
+			// setting parameter for passing it to prepareCall
 			statement.setString(2, user);
 			statement.setString(3, password);
 
@@ -45,7 +45,7 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -78,7 +78,7 @@ public class DAManager {
 			con = dbUtil.getConnectionThinDriver();
 
 			// Create prepared Statement
-			
+
 			String sql = "insert into employees values(?,?,?,?,?,?,?,?,?,?,?)";
 
 			statement = con.prepareStatement(sql);
@@ -91,8 +91,8 @@ public class DAManager {
 			statement.setString(5, emp.getPhone_number());
 			statement.setString(6, emp.getHire_date());
 			statement.setString(7, emp.getJob_id());
-			statement.setInt(8, emp.getSalary());
-			statement.setInt(9, emp.getCommission_pct());
+			statement.setDouble(8, emp.getSalary());
+			statement.setDouble(9, emp.getCommission_pct());
 			statement.setInt(10, emp.getManager_id());
 			statement.setInt(11, emp.getDepartment_id());
 
@@ -103,7 +103,7 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -145,7 +145,7 @@ public class DAManager {
 
 			resultSet = statement.executeQuery(sql);
 
-			// loop through  resultSet and adding data to employee  list			
+			// loop through resultSet and adding data to employee list
 			while (resultSet.next()) {
 				employeesList.add(new Employees(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
 						resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
@@ -155,7 +155,7 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -193,13 +193,13 @@ public class DAManager {
 			String sql = "select * from employees where DEPARTMENT_ID=?";
 
 			statement = con.prepareStatement(sql);
-			
-			//setting data for prepare statement			
+
+			// setting data for prepare statement
 			statement.setInt(1, depid);
 
 			resultSet = statement.executeQuery();
 
-			// loop through  resultSet and adding data to the employee  list	
+			// loop through resultSet and adding data to the employee list
 			while (resultSet.next()) {
 				employeesList.add(new Employees(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
 						resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7),
@@ -209,7 +209,7 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -243,14 +243,14 @@ public class DAManager {
 		try {
 
 			connection = dbUtil.getConnectionThinDriver();
-			
-			// Oracle Callable statement 		
+
+			// Oracle Callable statement
 			statement = (OracleCallableStatement) connection.prepareCall("{call P_SECURITY.p_emp_info(?,?)}");
 
-			//setting value to prepareCall			
+			// setting value to prepareCall
 			statement.setInt(1, empid);
-			
-			//setting output type			
+
+			// setting output type
 			statement.registerOutParameter(2, OracleTypes.CURSOR);
 
 			statement.executeQuery();
@@ -275,7 +275,7 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			e.printStackTrace();
 			System.exit(0);
 		} catch (Exception ex) {
@@ -311,27 +311,37 @@ public class DAManager {
 
 			connection = dbUtil.getConnectionThinDriver();
 
-			//Sql query			
+			// Sql query
 			String sql = "SELECT first_name,last_name,email,phone_number,hire_date,job_id,salary,commission_pct,manager_id,department_id FROM EMPLOYEES WHERE employee_id="
 					+ emp.getEmployee_id();
 
-			//create statement using result set			
+			// create statement using result set
 			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			resultSet = statement.executeQuery(sql);
 
-			//setting result set to update data			
+			// setting result set to update data
 			while (resultSet.next()) {
 				// Updates the data inside the result set.
+				System.out.println(emp.getFirst_name());
 				resultSet.updateString("first_name", emp.getFirst_name());
+				System.out.println(emp.getLast_name());
 				resultSet.updateString("last_name", emp.getLast_name());
+				System.out.println(emp.getEmail());
 				resultSet.updateString("email", emp.getEmail());
+				System.out.println(emp.getPhone_number());
 				resultSet.updateString("phone_number", emp.getPhone_number());
+				System.out.println(emp.getHire_date());
 				resultSet.updateString("hire_date", emp.getHire_date());
+				System.out.println(emp.getJob_id());
 				resultSet.updateString("job_id", emp.getJob_id());
-				resultSet.updateInt("salary", emp.getSalary());
-				resultSet.updateInt("commission_pct", emp.getCommission_pct());
+				System.out.println(emp.getSalary());
+				resultSet.updateDouble("salary", emp.getSalary());
+				System.out.println(emp.getCommission_pct());
+				resultSet.updateDouble("commission_pct", emp.getCommission_pct());
+				System.out.println(emp.getManager_id());
 				resultSet.updateInt("manager_id", emp.getManager_id());
+				System.out.println(emp.getDepartment_id());
 				resultSet.updateInt("department_id", emp.getDepartment_id());
 
 				// Updates the table.
@@ -342,7 +352,8 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
+			e.getStackTrace();
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -391,7 +402,7 @@ public class DAManager {
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -422,32 +433,34 @@ public class DAManager {
 		try {
 
 			con = dbUtil.getConnectionThinDriver();
-			
-			// turn off auto commit			
+
+			// turn off auto commit
 			con.setAutoCommit(false);
 
-					
 			statement = con.createStatement();
-			
-			//pushing sql query to batch
-			for (int i = 0; i < SQLs.length; i++) {
-				statement.addBatch(SQLs[i]);
-			}
-			
-			//execute all query at once using execute Batch			
-			int[] updateCounts = statement.executeBatch();
 
-			//commit to save transaction  			
+			// pushing sql query to batch
+			for (int i = 0; i < SQLs.length; i++) {
+					statement.addBatch(SQLs[i]);
+			}
+
+			// execute all query at once using execute Batch
+			int[] updateCounts = statement.executeBatch();
+			System.out.println(updateCounts);
+
+			// commit to save transaction
 			con.commit();
 
 		} catch (BatchUpdateException ex) {
-			//undo  transaction  if error occur			
+			// undo transaction if error occur
+			ex.printStackTrace();
 			con.rollback();
+			System.out.println("rollback");
 			return false;
 		} catch (SQLException e) {
 			System.err.println("Sql state: " + e.getSQLState());
 			System.err.println("Error message: " + e.getMessage());
-			System.err.println("Error code: " +e.getErrorCode());
+			System.err.println("Error code: " + e.getErrorCode());
 			System.exit(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
