@@ -323,25 +323,15 @@ public class DAManager {
 			// setting result set to update data
 			while (resultSet.next()) {
 				// Updates the data inside the result set.
-				System.out.println(emp.getFirst_name());
 				resultSet.updateString("first_name", emp.getFirst_name());
-				System.out.println(emp.getLast_name());
 				resultSet.updateString("last_name", emp.getLast_name());
-				System.out.println(emp.getEmail());
 				resultSet.updateString("email", emp.getEmail());
-				System.out.println(emp.getPhone_number());
 				resultSet.updateString("phone_number", emp.getPhone_number());
-				System.out.println(emp.getHire_date());
 				resultSet.updateString("hire_date", emp.getHire_date());
-				System.out.println(emp.getJob_id());
 				resultSet.updateString("job_id", emp.getJob_id());
-				System.out.println(emp.getSalary());
 				resultSet.updateDouble("salary", emp.getSalary());
-				System.out.println(emp.getCommission_pct());
 				resultSet.updateDouble("commission_pct", emp.getCommission_pct());
-				System.out.println(emp.getManager_id());
 				resultSet.updateInt("manager_id", emp.getManager_id());
-				System.out.println(emp.getDepartment_id());
 				resultSet.updateInt("department_id", emp.getDepartment_id());
 
 				// Updates the table.
