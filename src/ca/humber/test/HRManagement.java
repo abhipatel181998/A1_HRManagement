@@ -1,8 +1,6 @@
 package ca.humber.test;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 import ca.humber.model.DAManager;
@@ -195,9 +193,6 @@ public class HRManagement {
 								String hireDate_u = in.next();
 								if (!(hireDate_u.equals("-1")))
 									employee_u.setHire_date(hireDate_u);
-								else
-									System.out.println(employee_u.getHire_date());
-								
 
 								System.out.print("\nEneter updated Job Id: ");
 								String job_id_u = in.next();
@@ -278,10 +273,10 @@ public class HRManagement {
 									emp_id_s = in.nextInt();
 
 									if (emp_id_s != -1) {
-										sqls[index] = "UPDATE security SET sec_status = '" + status
-												+ "' WHERE employee_id=" + emp_id_s;
+											sqls[index] = "UPDATE security SET sec_status = '" + status
+													+ "' WHERE employee_id=" + emp_id_s;
 
-										index++;
+											index++;
 									}
 								}
 

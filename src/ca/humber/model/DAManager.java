@@ -431,6 +431,7 @@ public class DAManager {
 
 			// pushing sql query to batch
 			for (int i = 0; i < SQLs.length; i++) {
+				if (SQLs[i] != null)
 					statement.addBatch(SQLs[i]);
 			}
 
