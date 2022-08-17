@@ -1,15 +1,3 @@
-Assignment Submission Form         
-================================================================================  
-I/we declare that the attached assignment is my/our own work in accordance with  humber Academic Policy. No 
-part of this assignment has been copied manually or electronically from any other source (including web sites) or 
-distributed to other students.         
-         
-Name(s): Abhi Hasmukhbhai Patel                       	  Student ID(s): N01421293                   
-         Harshil Hemantkumar Parmar                       Student ID(s): N01444692                  
---------------------------------------------------------------------------         
--------------------------------------------------------------------------- 
-
-
 In code there are two package
 1)ca.humber.model
 	1)DAManager.java : 
